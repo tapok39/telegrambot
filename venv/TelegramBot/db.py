@@ -1,3 +1,4 @@
+import datetime
 import sqlite3
 import time
 
@@ -47,6 +48,10 @@ class Database:
                 time_sub = int(row[0])
             return time_sub
 
+    def get_sub(self):
+        with self.connection:
+            result = self.cursor.execute("SELECT time_sub FROM users WHERE time_sub = 0")
+            return result.fetchone()[0]
     def get_sub_status(self, user_id):
         with self.connection:
             result = self.cursor.execute("SELECT time_sub FROM users WHERE user_id = ?", (user_id,)).fetchall()
@@ -58,3 +63,42 @@ class Database:
                 return True
             else:
                 return False
+    def get_sub(self):
+        with self.connection:
+            result = self.cursor.execute("SELECT time_sub FROM users WHERE time_sub = 0")
+            return result.fetchone()[0]
+    def get_sub_status(self, user_id):
+        with self.connection:
+            result = self.cursor.execute("SELECT time_sub FROM users WHERE user_id = ?", (user_id,)).fetchall()
+            for row in result:
+                time_sub = int(row[0])
+            return time_sub
+
+            if time_sub > int(time.time()):
+                return True
+            else:
+                return False
+    def set_active(self, user_id, active):
+        with self.connection:
+            return self.cursor.execute("UPDATE users SET active = ? WHERE user_id = ?", (active, user_id,))
+    def get_users(self):
+        with self.connection:
+            return self.cursor.execute("SELECT user_id, active FROM users").fetchall()
+    def send_sub_status(self, user_id):
+        with self.connection:
+            result = self.cursor.execute("SELECT time_sub FROM users WHERE time_sub = 0", (user_id,)).fetchall()
+            for row in result:
+                row = int(row[0])
+            return row
+
+            if result < int(time.time()):
+                return False
+
+
+
+
+
+
+
+
+

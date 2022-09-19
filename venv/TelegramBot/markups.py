@@ -9,13 +9,15 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, \
 btnSub = KeyboardButton('ПОДПИСКА')
 btnList = KeyboardButton('СПИСОК ПОЛЬЗОВАТЕЛЕЙ')
 btnProfile = KeyboardButton('ПРОФИЛЬ')
+btnNotification = KeyboardButton('Напоминание о подписке')
 mainMenu = ReplyKeyboardMarkup(resize_keyboard=True)
-mainMenu.add(btnSub, btnProfile, btnList)
+mainMenu.add(btnSub, btnProfile, btnList, btnNotification)
 
 #Другое меню
 sub_inline_markup = InlineKeyboardMarkup(row_width=1)
 
 btnSubMonth = InlineKeyboardButton(text='Месяц - 150 рублей', callback_data='submonth')
+btnNotification = InlineKeyboardMarkup(text='Включить оповещение о попдписке', callback_data='Notification')
 sub_inline_markup.insert(btnSubMonth)
 # btnInfo = KeyboardButton('Информация')
 # btnMoney = KeyboardButton('Курсы валют')
