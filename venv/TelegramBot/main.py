@@ -13,7 +13,10 @@ bot = Bot(token='5744098377:AAFJRs8AHf07ZHJy1H1uVoRC883Ny6XjuW0')
 YOOTOKEN = '381764678:TEST:42248'
 dp = Dispatcher(bot)
 db = Database('Database.db')
-
+if __name__ == '__main__':
+    executor.start_polling(dp, skip_updates=True)
+    loop = asyncio.get_event_loop()
+    loop.create_task(run_notify())
 def days_to_seconds(days):
     return days * 24 * 60 * 60
 
@@ -104,9 +107,21 @@ async def process_pay(message: types.Message):
         db.set_time_sub(message.from_user.id, time_sub)
         await bot.send_message(message.from_user.id, 'Вам выдана подписка на месяц')
          #подписка
-@dp.message_handler(commands=["start"])
-async def notification(message):
-
+@dp.callback_query_handler(text='notification')
+async def run_notify():
+    while True:
+            base = sqlite3.connect("Database.db")
+            cursor = base.cursor()
+            all_data = cur.execute("SELECT time_sub FROM users").fetchall
+            delta = timedelta(days=1)
+            for each_train in all_data:
+                each_train = int(each_train)
+                each_train = re.sub("[(|)|'|,", "", each_train)
+                data_info = datetime.strptime(each_train, "%d %m %Y %H:%M")
+                today = datetime.now()
+                if today == (data_info - delta):
+                    await bot.send_message(chat_id=5744098377, text=f"Reminder {data_info}")
+            await asyncio.sleep(1)
 
 
 async def inifinite_task():
@@ -121,8 +136,7 @@ async def inifinite_task():
 #             now = datetime.datetime.now()
 #             if now.strftime("%d-%m-%Y") > self.cursor.execute("SELECT * FROM users WHERE user_id = ?", (user_id,)).fetchone()[3]):
 #                 await bot.send_message(message.from_user.id, )
-if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True)
+
 
 
 

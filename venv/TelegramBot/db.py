@@ -88,10 +88,12 @@ class Database:
         with self.connection:
             result = self.cursor.execute("SELECT time_sub FROM users WHERE time_sub = 0", (user_id,)).fetchall()
             for row in result:
-                row = int(row[0])
-            return row
+                time_sub = int(row[0])
+            return time_sub
 
-            if result < int(time.time()):
+            if time_sub < int(time.time()):
+                return True
+            else:
                 return False
 
 

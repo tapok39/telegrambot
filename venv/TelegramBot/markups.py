@@ -17,7 +17,7 @@ mainMenu.add(btnSub, btnProfile, btnList, btnNotification)
 sub_inline_markup = InlineKeyboardMarkup(row_width=1)
 
 btnSubMonth = InlineKeyboardButton(text='Месяц - 150 рублей', callback_data='submonth')
-btnNotification = InlineKeyboardMarkup(text='Включить оповещение о попдписке', callback_data='Notification')
+btnNotification = InlineKeyboardMarkup(text='Включить оповещение о подписке', callback_data='Notification')
 sub_inline_markup.insert(btnSubMonth)
 # btnInfo = KeyboardButton('Информация')
 # btnMoney = KeyboardButton('Курсы валют')
